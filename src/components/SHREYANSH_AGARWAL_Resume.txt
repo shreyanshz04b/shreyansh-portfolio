@@ -1,0 +1,107 @@
+SHREYANSH AGARWAL
+
+AGRA, INDIA 282005
++91 7906978267
+shreyansh.agarwal_bca22@gla.ac.in
+LinkedIn: linkedin.com/in/shreyanshagarwalceo
+
+Professional Summary
+
+Innovative individual with proven success evaluating requirements for software development projects to design innovative solutions. Out-of-the-box thinker and problem solver dedicated to improving performance. Works well in teams and consistently delivers to deadlines.
+
+Work History
+
+January 2024 - January 2024
+
+Walmart
+Software Engineering Virtual Intern
+
+Developed and maintained comprehensive documentation for software solutions, facilitating easier updates and troubleshooting
+Engaged in continuous learning initiatives to stay abreast of emerging technologies and apply them in software development projects
+Participated in agile development practices, including sprint planning and daily stand-ups, to enhance team productivity.
+
+Projects
+
+E RICKSHAW BOOKING WEBSITE(JOYTRIP)
+
+User registration and login functionality
+Integration with payment gateways for secure transactions
+User profile management with booking history and rating
+Api Integration Google Maps API, payment gateway APIs
+
+JOBSEEKER WEB APP(HIREFLIX)
+
+User registration and login functionality
+Resume building and improvement tools
+Company information and reviews
+HR contact information (emails and phone numbers)
+
+Skills
+
+Critical thinking
+
+Agile
+
+Creative problem-solving
+
+Innovative thinking
+
+Effective time management
+
+Technical presentation
+
+Results-Oriented approach
+
+SQL database management
+
+Object-Oriented programming
+
+Problem-Solving
+
+Java
+
+Project management abilities
+
+API Integration
+
+Front-end Frameworks
+
+Software Debugging
+
+Quality Assurance
+
+Education
+
+January 2022 - January 2025
+GLA UNIVERSITY Mathura, UP
+BACHELOR OF COMPUTER APPLICATION
+
+January 2021 - January 2022
+SUMEET RAHUL GOEL MEMORIAL SENIOR SEC. SCHOOL Agra, UP
+INTERMIDIATE
+
+Certifications
+
+Datasecurity Badge By Salesforce
+
+Dimploma Of Ceo By Udemy
+
+ISO20000:- FOUNDATION IT SERVICE CERTIFICATION
+
+ETHICAL HACKER BY CISCO
+
+DSA IN JAVA GREAT LEARNING
+
+GOOGLE ADS SEARCH CERTIFICATION BY GOOGLE
+
+MICROSOFT AZURE FUNDAMENTAL DESCRIBE CLOUD CONCEPT BY MICROSOFT
+
+PYTHON BY HACKERANK
+
+CISCO CERTIEFIED NETWORK ASSOCIATE BY NASSCOM
+
+Interests
+
+DESIGNING
+
+CHESS

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
@@ -9,67 +9,30 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Prevent logged-in admin from accessing login page
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      const session = data.session;
-
-      if (session?.user?.user_metadata?.role === "admin") {
-        navigate("/admindashboard", { replace: true });
-      }
-    };
-
-    checkSession();
-  }, [navigate]);
-
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Normalize & sanitize input
-      const cleanEmail = email.trim().toLowerCase();
-      const cleanPassword = password.trim();
-
-      if (!cleanEmail || !cleanPassword) {
-        throw new Error("Invalid credentials");
-      }
-
-      // Artificial delay to reduce brute force speed
-      await delay(600);
-
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password: cleanPassword,
+        email,
+        password,
       });
 
-      if (error || !data?.user) {
-        throw new Error("Login failed");
-      }
+      if (error) throw error;
 
-      // Re-validate session from server
-      const { data: sessionData } = await supabase.auth.getSession();
-      const session = sessionData.session;
+      const user = data.user;
+      const role = user?.user_metadata?.role;
 
-      if (!session) {
-        throw new Error("Session validation failed");
-      }
-
-      // Strict role check
-      const role = session.user?.user_metadata?.role;
-
-      if (role !== "admin") {
+      if (role === "admin") {
+        alert("✅ Welcome, Admin!");
+        navigate("/admindashboard");
+      } else {
+        alert("⚠️ Unauthorized Access");
         await supabase.auth.signOut();
-        throw new Error("Unauthorized Access");
       }
-
-      navigate("/admindashboard", { replace: true });
-
     } catch (err) {
-      alert("❌ " + err.message);
+      alert("❌ Login failed: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -94,7 +57,6 @@ export default function AdminLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              autoComplete="off"
             />
             <Label>Email Address</Label>
           </InputWrapper>
@@ -106,7 +68,6 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete="new-password"
             />
             <Label>Password</Label>
           </InputWrapper>
@@ -119,7 +80,6 @@ export default function AdminLogin() {
     </Container>
   );
 }
-
 
 /* ================== ANIMATIONS ================== */
 
