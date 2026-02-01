@@ -15,6 +15,7 @@ import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard"; // ✅ Import AdminLogin
 import Contact from "./components/Contact";
 import ResumeGenerator from "./pages/ResumeGenerator";
+import AdminRoute from "./components/AdminRoute";
 
 
 function App() {
@@ -80,7 +81,14 @@ function App() {
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/adminlogin" element={<AdminLogin />} /> {/* ✅ Admin Login Route */}
-            <Route path="/admindashboard" element={<AdminDashboard />} />
+            <Route path="/admindashboard"
+  element={
+    <AdminRoute>
+      <AdminDashboard />
+    </AdminRoute>
+  }
+/>
+
             <Route path="/resume" element={<ResumeGenerator />} />
 
           </Routes>
