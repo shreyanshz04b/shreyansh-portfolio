@@ -1,31 +1,41 @@
-import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
 export default function AdminRoute({ children }) {
   const [authorized, setAuthorized] = useState(null);
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+    const checkAuth = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
 
-      if (!user) {
+        if (error || !user) {
+          setAuthorized(false);
+          return;
+        }
+
+        // Strict role check
+        if (user.user_metadata?.role !== "admin") {
+          await supabase.auth.signOut();
+          setAuthorized(false);
+          return;
+        }
+
+        setAuthorized(true);
+      } catch {
         setAuthorized(false);
-        return;
       }
-
-      if (user.user_metadata?.role !== "admin") {
-        setAuthorized(false);
-        return;
-      }
-
-      setAuthorized(true);
     };
 
-    checkUser();
+    checkAuth();
   }, []);
 
-  if (authorized === null) return null; // loading
+  if (authorized === null) return null; // wait
 
-  return authorized ? children : <Navigate to="/adminlogin" replace />;
+  if (!authorized) {
+    return <Navigate to="/adminlogin" replace />;
+  }
+
+  return children;
 }

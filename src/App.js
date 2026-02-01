@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
@@ -9,30 +16,31 @@ import Services from "./components/Services";
 import About from "./components/About";
 import ChatBot from "./components/ChatBot";
 import Blog from "./components/Blog";
-import Admin from "./components/Admin";
 import BlogPost from "./components/BlogPost";
 import AdminLogin from "./components/AdminLogin";
-import AdminDashboard from "./components/AdminDashboard"; // ✅ Import AdminLogin
+import AdminDashboard from "./components/AdminDashboard";
 import Contact from "./components/Contact";
 import ResumeGenerator from "./pages/ResumeGenerator";
 import AdminRoute from "./components/AdminRoute";
 
+function AppWrapper() {
+  const location = useLocation();
 
-function App() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [trail, setTrail] = useState([]);
+  const isAdminPage =
+    location.pathname === "/adminlogin" ||
+    location.pathname === "/admindashboard";
 
+  // 🔒 Remove query parameters
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-      setTrail((prevTrail) => [
-        ...prevTrail,
-        { x: e.clientX, y: e.clientY, size: 12 + Math.random() * 8 },
-      ]);
-      if (trail.length > 15) setTrail(trail.slice(1));
-    };
+    if (location.search) {
+      window.history.replaceState({}, "", location.pathname);
+    }
+  }, [location]);
 
+  // 🔒 DevTools + Right Click Blocker (Friction Layer Only)
+  useEffect(() => {
     const handleContextMenu = (e) => e.preventDefault();
+
     const handleKeyDown = (e) => {
       if (
         e.key === "F12" ||
@@ -45,56 +53,69 @@ function App() {
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("contextmenu", handleContextMenu);
     window.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("contextmenu", handleContextMenu);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [trail]);
-
-  const appStyle = {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
-    background: "radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(10,10,20,1) 70%)",
-  };
-
-  const contentStyle = { flex: 1 };
+  }, []);
 
   return (
-    <Router>
-      <div style={appStyle}>
-        <Header />
-        <div style={contentStyle}>
-          <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/chatbot" element={<ChatBot />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/adminlogin" element={<AdminLogin />} /> {/* ✅ Admin Login Route */}
-            <Route path="/admindashboard"
-  element={
-    <AdminRoute>
-      <AdminDashboard />
-    </AdminRoute>
-  }
-/>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(10,10,20,1) 70%)",
+      }}
+    >
+      {!isAdminPage && <Header />}
 
-            <Route path="/resume" element={<ResumeGenerator />} />
+      <div style={{ flex: 1 }}>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/chatbot" element={<ChatBot />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/resume" element={<ResumeGenerator />} />
 
-          </Routes>
-        </div>
-        <Footer />
+          {/* 🔐 Admin Login */}
+          <Route path="/adminlogin" element={<AdminLogin />} />
+
+          {/* 🔐 Strict Admin Dashboard */}
+          <Route
+            path="/admindashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+
+          {/* 🚫 Block everything else */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
       </div>
+
+      {!isAdminPage && <Footer />}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
     </Router>
   );
 }
