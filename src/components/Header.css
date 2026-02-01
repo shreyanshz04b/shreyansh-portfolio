@@ -1,0 +1,170 @@
+/* ================= GLOBAL FIX ================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 255, 0.08);
+  border-radius: 14px;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+}
+
+/* ================= NAV LINKS ================= */
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  position: relative;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: color 0.25s ease;
+}
+
+/* Subtle underline */
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #00c2ff;
+  transition: width 0.25s ease;
+}
+
+.nav-links li a:hover {
+  color: #ffffff;
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+/* ================= ADMIN BUTTON ================= */
+
+.admin-login-button {
+  padding: 8px 18px;
+  background: #00c2ff;
+  color: #0f172a;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.admin-login-button:hover {
+  background: #38bdf8;
+  transform: translateY(-2px);
+}
+
+/* ================= HAMBURGER ================= */
+
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 900px) {
+
+  .header {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 0;
+    padding: 12px 18px;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 60px;
+    right: -100%;
+    flex-direction: column;
+    background: #0f172a;
+    width: 260px;
+    height: calc(100vh - 60px);
+
+    padding: 30px 20px;
+    border-left: 1px solid rgba(255,255,255,0.05);
+
+    overflow-y: auto;           /* ✅ enable vertical scroll */
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+
+    transition: right 0.3s ease;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links li {
+    margin: 16px 0;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .admin-login-button {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+}
